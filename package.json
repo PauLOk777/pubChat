@@ -1,0 +1,38 @@
+{
+  "name": "pubchat",
+  "version": "1.0.0",
+  "description": "Chat for all",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "eslint .",
+    "dev": "nodemon",
+    "precommit": "npm test",
+    "prettier": "prettier --config .prettierrc.json --write ./**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PauLOk777/pubChat.git"
+  },
+  "keywords": [
+    "chat",
+    "nodejs",
+    "webSocket",
+    "Socket.io"
+  ],
+  "author": "PauLOk777",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PauLOk777/pubChat/issues"
+  },
+  "homepage": "https://github.com/PauLOk777/pubChat#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.13"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "husky": "^3.1.0",
+    "nodemon": "^2.0.1"
+  }
+}
