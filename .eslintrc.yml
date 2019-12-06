@@ -20,8 +20,6 @@ rules:
     - error
     - 1tbs
     - allowSingleLine: true
-  camelcase:
-    - error
   comma-style:
     - error
     - last

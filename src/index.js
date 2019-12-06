@@ -1,11 +1,9 @@
-const express = require('express');
+const server = require('./init/server');
+const db = require('./init/db');
 
-const app = express();
+async function main() {
+    await server.init();
+    await db.init();
+}
 
-app.use(express.static('public'));
-
-app.get('/', (req, res) => {
-    res.sendFile('index.html');
-});
-
-app.listen(process.env.PORT || 3000);
+main();
