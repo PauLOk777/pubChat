@@ -9,7 +9,7 @@ const {
 const generateKey = require('../libs/random');
 
 async function chatPage(req, res) {
-    if(!req.cookies.pubChatId) { 
+    if (!req.cookies.pubChatId) {
         res.render('home.hbs', {
             title: 'Chat',
             signIn: 'Sign In',
@@ -26,9 +26,8 @@ async function chatPage(req, res) {
         signIn: 'Account',
         signUp: 'Sign Out',
         linkIn: '/account',
-        linkUp: '/sign/out'
-    })
-
+        linkUp: '/sign/out',
+    });
 }
 
 function signInPage(req, res) {
