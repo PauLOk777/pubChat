@@ -1,0 +1,23 @@
+<h1 id="id">Here will be our chat</h1>
+<form name="publish">
+	<textarea id="message"></textarea> 
+	<input type="submit" value="Send">
+</form>
+<div id="subscribe"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	$(function() {
+		const socket = io.connect('http://localhost:3000');
+		$('form').submit(e => {
+			e.preventDefault();
+			socket.emit('message', $('#message').val());
+			$('#message').val('');
+			return false;
+		});
+
+		socket.on('addMessage', event => {
+			$('#subscribe').append($('<p>').text(event));
+		});
+	});
+</script>

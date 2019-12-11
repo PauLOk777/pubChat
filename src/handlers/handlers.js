@@ -2,7 +2,10 @@ const path = require('path');
 const generateKey = require('../libs/random');
 
 async function chatPage(req, res) {
-    res.sendFile('index.html');
+    res.render('home.hbs', {
+    	title: 'Chat',
+    	mail: 'Hello'
+    });
 }
 
 function signInPage(req, res) {}
