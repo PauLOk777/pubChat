@@ -5,7 +5,7 @@ const http = require('http');
 const engine = require('../engine/engine');
 const { promisify } = require('util');
 
-const connectIO = require('../handlers/socketHandlers')
+const connectIO = require('../handlers/socketHandlers');
 const router = require('../router/router');
 
 // Constants
@@ -13,8 +13,8 @@ const PORT = 3000 || process.env.PORT;
 
 const init = async function() {
     const app = express();
-	const server = http.createServer(app);
-	const io = require('socket.io').listen(server);
+    const server = http.createServer(app);
+    const io = require('socket.io').listen(server);
 
     app.use(express.static('public'));
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,7 +24,7 @@ const init = async function() {
 
     engine.init(app);
     connectIO(io);
-    
+
     await promisify(server.listen).call(server, PORT);
 
     console.log(`>>> Server has been running at port ${PORT}`);

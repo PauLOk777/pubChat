@@ -1,31 +1,17 @@
 <header>
 	<div class="container-fluid">
 		<nav class="navbar navbar-dark navbar-expand-lg bg-dark row">
-			<a class="navbar-brand col-lg-5 " href="/">pubChat</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#my-nav">
-				<span class="navbar-toggler-icon"></span>
+			<a class="navbar-brand col-lg-5 " href="/" style="font-size: 32px; color: purple; font-weight: bold;">pubChat</a>
 			</button>
-			<div id="my-nav" class="collapse navbar-collapse">
+			<div id="my-nav" class="collapse navbar-collapse" style="position: absolute; right: 0;">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a href="/trade" class="nav-link">Trade</a>
+						<a href="{{linkIn}}" class="nav-link" style="font-size: 24px;">{{signIn}}</a>
 					</li>
 					<li class="nav-item ">
-						<a href="/deposit" class="nav-link">Deposit</a>
-					</li>
-					<li class="nav-item ">
-						<a href="/rules" class="nav-link">Rules</a>
-					</li>
-					<li class="nav-item ">
-						<a href="#" class="nav-link">About</a>
+						<a href="{{linkUp}}" class="nav-link" style="font-size: 24px;">{{signUp}}</a>
 					</li>
 				</ul>
-				<span class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{{mail}}
-					</a>	
-				</span>
 			</div>
 		</nav>
 	</div>

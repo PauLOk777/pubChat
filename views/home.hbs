@@ -1,9 +1,10 @@
 <h1 id="id">Here will be our chat</h1>
 <form name="publish">
 	<textarea id="message"></textarea> 
-	<input type="submit" value="Send">
+	<input type="submit" value="Send" id="button">
 </form>
 <div id="subscribe"></div>
+<span style="display: none;" id="disable">{{check}}</span>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -20,4 +21,12 @@
 			$('#subscribe').append($('<p>').text(event));
 		});
 	});
+</script>
+<script>
+	$(function() {
+		if($('#disable').text() == 'false') {
+			$('#message').prop('disabled', true);
+			$('#button').prop('disabled', true);
+		}
+	})
 </script>
