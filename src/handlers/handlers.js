@@ -7,34 +7,47 @@ async function chatPage(req, res) {
         signIn: 'Sign In',
         signUp: 'Sign Up',
         check: 'false',
-    	linkIn: '/sign/in',
-        linkUp: '/sign/up'
+        linkIn: '/sign/in',
+        linkUp: '/sign/up',
     });
 }
 
 function signInPage(req, res) {
+    if(req.cookies.uniq_id) {
+        res.redirect('/');
+        return;
+    }
 
-	res.render('signIn.hbs', {
+    res.render('signIn.hbs', {
         title: 'Sign In',
         signIn: 'Sign In',
         signUp: 'Sign Up',
         linkIn: '/sign/in',
-        linkUp: '/sign/up'
+        linkUp: '/sign/up',
     });
 }
 
 function signUpPage(req, res) {
+    if(req.cookies.uniq_id) {
+        res.redirect('/');
+        return;
+    }
 
-	res.render('signUp.hbs', {
+    res.render('signUp.hbs', {
         title: 'Sign Up',
         signIn: 'Sign In',
         signUp: 'Sign Up',
         linkIn: '/sign/in',
-        linkUp: '/sign/up'
+        linkUp: '/sign/up',
     });
 }
 
-async function accountPage(req, res) {}
+async function accountPage(req, res) {
+    if(!req.cookies.uniq_id) {
+        res.redirect('/');
+        return;
+    }
+}
 
 async function signIn(req, res) {}
 

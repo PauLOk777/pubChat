@@ -138,3 +138,5 @@ rules:
     - never
   require-atomic-updates:
     - off
+  no-mixed-spaces-and-tabs:
+    - warn
