@@ -36,7 +36,7 @@ rules:
       afterColon: true
       mode: minimum
   keyword-spacing:
-    - error
+    - warn
     - before: true
       after: true
       overrides:

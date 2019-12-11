@@ -13,7 +13,7 @@ async function chatPage(req, res) {
 }
 
 function signInPage(req, res) {
-    if(req.cookies.uniq_id) {
+    if (req.cookies.uniq_id) {
         res.redirect('/');
         return;
     }
@@ -28,7 +28,7 @@ function signInPage(req, res) {
 }
 
 function signUpPage(req, res) {
-    if(req.cookies.uniq_id) {
+    if (req.cookies.uniq_id) {
         res.redirect('/');
         return;
     }
@@ -43,7 +43,7 @@ function signUpPage(req, res) {
 }
 
 async function accountPage(req, res) {
-    if(!req.cookies.uniq_id) {
+    if (!req.cookies.uniq_id) {
         res.redirect('/');
         return;
     }
