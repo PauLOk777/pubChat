@@ -8,12 +8,13 @@ html, body {
 }
 
 #content {
-	margin-top: 100px;
 	text-align: center;
-	height: 75%;
+	height: 90%;
+	background-color: #BFDFF7;
 }
 
 #main {
+	margin-top: 100px;
 	display: inline-block;
 	height: 70%;
 	width: 80%;
@@ -64,4 +65,17 @@ html, body {
 	width: 8%;
 	position: absolute;
 	right: 0;
+}
+
+footer {
+	color: white;
+    background-color: #303030;
+    padding-top: 15px;
+    min-height: 40px;
+    text-align: center;
+    font-style: italic;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
 }

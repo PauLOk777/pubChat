@@ -9,6 +9,7 @@ const {
 const generateKey = require('../libs/random');
 
 async function chatPage(req, res) {
+    
     if (!req.cookies.pubChatId) {
         res.render('home.hbs', {
             title: 'Chat',
@@ -63,6 +64,25 @@ function signUpPage(req, res) {
 async function accountPage(req, res) {
     if (!req.cookies.pubChatId) {
         res.redirect('/');
+        return;
+    }
+
+    try {
+        const currentSession = await findSession(req.cookies.pubChatId);
+        const currentUser = await findUser(currentSession.email);
+        
+        res.render('account.hbs', {
+            title: 'Account',
+            user_email: currentUser.email,
+            signIn: 'Account',
+            signUp: 'Sign Out',
+            linkIn: '/account',
+            linkUp: '/sign/out',
+            username: currentUser.username,
+            msg: currentUser.messages,
+        });
+    } catch(e) {
+        console.log(e);
         return;
     }
 }
@@ -120,6 +140,14 @@ async function signOut(req, res) {
     res.clearCookie('pubChatId').redirect('/');
 }
 
+async function unauthorized(req, res) {
+
+}
+
+async function authorized(req, res) {
+
+}
+
 module.exports = {
     chatPage,
     signInPage,
@@ -128,4 +156,6 @@ module.exports = {
     signOut,
     signIn,
     signUp,
+    unauthorized,
+    authorized
 };

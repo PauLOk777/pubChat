@@ -23,7 +23,7 @@ const init = async function() {
     app.use('/', router);
 
     engine.init(app);
-    connectIO(io);
+    await connectIO(io);
 
     await promisify(server.listen).call(server, PORT);
 

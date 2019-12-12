@@ -1,3 +1,4 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <div id="content">
 	<div id="main">
 		<div id="users">
@@ -17,14 +18,13 @@
 	</div>
 </div>
 <span style="display: none;" id="disable">{{check}}</span>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
 	$(function() {
 		const socket = io.connect('http://localhost:3000');
 		$('form').submit(e => {
 			e.preventDefault();
-			socket.emit('message', $('#message').val());
+			socket.emit('message', { text: $('#message').val(), cookies: document.cookie, date: new Date() });
 			$('#message').val('');
 			return false;
 		});
