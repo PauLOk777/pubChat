@@ -22,7 +22,7 @@ async function checkUser(email, password) {
 
 async function findUser(email) {
     const user = await User.findOne({ email });
-    if (!user) throw new Error('Invalid email');
+    if (!user) return null;
     return user;
 }
 

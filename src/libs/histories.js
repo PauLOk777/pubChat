@@ -1,24 +1,50 @@
 const History = require('../models/History');
 
 async function addMessage(userName, date, text) {
-	const message = new History({
+    const message = new History({
         userName,
         date,
-        text
+        text,
     });
 
-    await message.save(); 
+    await message.save();
 }
 
 async function updateHistory() {
+    const history = await History.find();
+    if (history.length > 20) {
+    	let index = history.length - 20;
+    	for (let i = 0; i < index; i++) {
+    		const oldDate = history[i].date;
+    		History.findOneAndDelete({ date: oldDate }, (err, msg) => {
+		        if (err) {
+		            console.log(err);
+		            return;
+		        }
+		        console.log(msg);
+		    });
+    	}
+    }
+}
+
+async function getFullHistory() {
 	const history = await History.find();
-	if (history.length >= 50) {
-		// Удалять элементы пока не будет 
-		// ровно 50 (должно быть ровно 1 удаление)
+	return history;
+}
+
+async function getCutHistory(amount) {
+	const history = await History.find();
+	const cutHistory = [];
+	for (let i = history.length - 1; i >= history.length - amount; i--) {
+		cutHistory.push(history[i]);
 	}
+
+	return cutHistory;
 }
 
 module.exports = {
-	addMessage,
-	updateHistory,
+    addMessage,
+    updateHistory,
+    getFullHistory,
+    getCutHistory,
 };

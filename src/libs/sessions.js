@@ -11,7 +11,7 @@ async function addSession(pubChatId, email) {
 
 async function findSession(pubChatId) {
     const session = await Session.findOne({ pubChatId });
-    if (!session) throw new Error('Invalid pubChatId');
+    if (!session) return null;
     return session;
 }
 
