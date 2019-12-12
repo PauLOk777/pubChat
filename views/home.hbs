@@ -1,9 +1,21 @@
-<h1 id="id">Here will be our chat</h1>
-<form name="publish">
-	<textarea id="message"></textarea> 
-	<input type="submit" value="Send" id="button">
-</form>
-<div id="subscribe"></div>
+<div id="content">
+	<div id="main">
+		<div id="users">
+			<div><h3>Active users:</h3></div></br>
+		</div>
+		<div id="chat">
+			<div id="messages">
+			
+			</div>
+			<div id="typeMsg">
+				<form name="publish">
+					<textarea id="message" placeholder="Write your message..."></textarea> 
+					<input type="submit" value="Send" id="button">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <span style="display: none;" id="disable">{{check}}</span>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -18,7 +30,7 @@
 		});
 
 		socket.on('addMessage', event => {
-			$('#subscribe').append($('<p>').text(event));
+			$('#messages').append($('<div>').text(event));
 		});
 	});
 </script>
@@ -27,6 +39,7 @@
 		if($('#disable').text() == 'false') {
 			$('#message').prop('disabled', true);
 			$('#button').prop('disabled', true);
+			$('#message').prop('placeholder', "Sign in to write something...");
 		}
 	})
 </script>
