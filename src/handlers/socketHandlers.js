@@ -22,12 +22,14 @@ async function connectIO(io) {
             io.emit('loadHistory', history);
             const name = await activeUser(cookiePub);
             let names = [];
+            
             if (name) {
                 users.add(name);
-           
-                for (let user of users) {
-                    names.push(user);
-                }
+            }
+
+            for (let user of users) {
+                names.push(user);
+            
             }
             io.emit('activeUser', names);
         });
@@ -37,17 +39,17 @@ async function connectIO(io) {
             try {
                 const currentSession = await findSession(cookiePub);
                 if (currentSession) {
-	                const currentUser = await findUser(currentSession.email);
+                    const currentUser = await findUser(currentSession.email);
 
-	                console.dir(users);
-	                users.delete(currentUser.username);
+                 	users.delete(currentUser.username);
 
-	                let names = [];
-	                for (let user of users) {
-	                    names.push(user);
-	                }
+                	let names = [];
+                
+                    for (let user of users) {
+                        names.push(user);
+                    }
+                	io.emit('activeUser', names);
                 }
-                io.emit('activeUser', names);
             } catch (e) {
                 console.log(e);
                 return;
