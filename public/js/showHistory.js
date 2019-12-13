@@ -1,4 +1,5 @@
 function showHistory(messages) {
+    if(messages[messages.length - 1] != document.cookie) return;
     let mainDiv = document.getElementById('messages');
     mainDiv.innerHTML = '';
     for (let i = 0; i < Math.floor(messages.length / 2); i++) {

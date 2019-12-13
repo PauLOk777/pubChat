@@ -18,6 +18,7 @@ async function connectIO(io) {
             socket.cookie = cookiePub;
 
             const history = await loadHistory(cookiePub);
+            history.push(cookiePub);
             io.emit('loadHistory', history);
             const name = await activeUser(cookiePub);
             if (name) {
@@ -31,7 +32,7 @@ async function connectIO(io) {
         });
 
         socket.on('reconnect_attempt', async function() {
-        	let cookiePub = socket.cookie;
+            let cookiePub = socket.cookie;
             try {
                 const currentSession = await findSession(cookiePub);
                 if (!currentSession) return;
