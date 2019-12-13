@@ -9,8 +9,6 @@ router.get('/sign/in', handlers.signInPage);
 router.get('/sign/up', handlers.signUpPage);
 router.get('/account', handlers.accountPage);
 router.get('/sign/out', handlers.signOut);
-router.get('/unauthorized', handlers.unauthorized);
-router.get('/authorized', handlers.authorized);
 router.get('/clear', (req, res) => res.clearCookie('pubChatId').redirect('/'));
 router.post('/sign/in', handlers.signIn);
 router.post('/sign/up', handlers.signUp);

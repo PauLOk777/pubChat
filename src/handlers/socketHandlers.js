@@ -10,12 +10,13 @@ const {
 const users = new Set();
 
 async function connectIO(io) {
-    io.sockets.on('connection', (socket) => {
+    io.sockets.on('connection', async function(socket) {
+
         socket.on('loadInfo', async function(cookie) {
             let index = cookie.indexOf('pubChatId=');
             index += 10;
             let cookiePub = cookie.slice(index);
-            socket.cookie = cookiePub;
+            socket.cookies = cookiePub;
 
             const history = await loadHistory(cookiePub);
             history.push(cookiePub);
@@ -31,26 +32,7 @@ async function connectIO(io) {
             }
         });
 
-        socket.on('reconnect_attempt', async function() {
-            let cookiePub = socket.cookie;
-            try {
-                const currentSession = await findSession(cookiePub);
-                if (!currentSession) return;
-                const currentUser = await findUser(currentSession.email);
-
-                users.delete(currentUser.username);
-
-                let names = [];
-                for (let user of users) {
-                    names.push(user);
-                }
-
-                io.emit('activeUser', names);
-            } catch (e) {
-                console.log(e);
-                return;
-            }
-        });
+        socket.on('reconnect', () => console.log('Hello'));
 
         socket.on('disconnect', async function() {
             let cookiePub = socket.cookie;

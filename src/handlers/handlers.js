@@ -9,7 +9,28 @@ const {
 const generateKey = require('../libs/random');
 
 async function chatPage(req, res) {
-    if (!req.cookies.pubChatId) {
+    let pointer = 'Not Empty';
+    try {
+        const currentSession = await findSession(req.cookies.pubChatId);
+        if(!currentSession) {
+            pointer = null;
+        }
+
+    } catch(e) {
+        console.log(e);
+        res.status(404);
+        return;
+    }
+
+    if (pointer) {
+        res.render('home.hbs', {
+            title: 'Chat',
+            signIn: 'Account',
+            signUp: 'Sign Out',
+            linkIn: '/account',
+            linkUp: '/sign/out',
+        });
+    } else {
         res.render('home.hbs', {
             title: 'Chat',
             signIn: 'Sign In',
@@ -18,16 +39,7 @@ async function chatPage(req, res) {
             linkIn: '/sign/in',
             linkUp: '/sign/up',
         });
-        return;
     }
-
-    res.render('home.hbs', {
-        title: 'Chat',
-        signIn: 'Account',
-        signUp: 'Sign Out',
-        linkIn: '/account',
-        linkUp: '/sign/out',
-    });
 }
 
 function signInPage(req, res) {
@@ -61,13 +73,15 @@ function signUpPage(req, res) {
 }
 
 async function accountPage(req, res) {
-    if (!req.cookies.pubChatId) {
-        res.redirect('/');
-        return;
-    }
 
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
+        
+        if (!currentSession) {
+            res.redirect('/');
+            return;
+        }
+
         const currentUser = await findUser(currentSession.email);
 
         res.render('account.hbs', {
@@ -139,10 +153,6 @@ async function signOut(req, res) {
     res.clearCookie('pubChatId').redirect('/');
 }
 
-async function unauthorized(req, res) {}
-
-async function authorized(req, res) {}
-
 module.exports = {
     chatPage,
     signInPage,
@@ -151,6 +161,4 @@ module.exports = {
     signOut,
     signIn,
     signUp,
-    unauthorized,
-    authorized,
 };
