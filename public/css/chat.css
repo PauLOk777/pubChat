@@ -31,6 +31,7 @@ html, body {
 }
 
 #messages {
+	text-align: right;
 	overflow-y: scroll;
 	border: 5px solid black;
 	min-height: 400px;
@@ -78,4 +79,37 @@ footer {
 	left: 0;
 	bottom: 0;
 	width: 100%;
+}
+
+.myMessage {
+	text-align: right;
+}
+
+.myMessage p {
+	margin: 0;
+}
+
+.myMessage div {
+	background-color: #0E5B9E;
+	display: inline-block;
+	margin-left: 10px;
+	padding: 10px 50px;
+	border-radius: 10px;
+}
+
+.otherMessage {
+	text-align: left;
+	color: #F4F4F4;
+}
+
+.otherMessage div {
+	background-color: #312A2A;
+	display: inline-block;
+	margin-left: 10px;
+	padding: 10px 50px;
+	border-radius: 10px;
+}
+
+.otherMessage p {
+	margin: 0;
 }

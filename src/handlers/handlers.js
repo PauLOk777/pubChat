@@ -82,7 +82,7 @@ async function accountPage(req, res) {
         });
     } catch (e) {
         console.log(e);
-        return;
+        res.redirect('/');
     }
 }
 
@@ -113,13 +113,13 @@ async function signIn(req, res) {
 
 async function signUp(req, res) {
     if (!req.cookies.pubChatId) {
-        const key = generateKey(50);
-        res.cookie('pubChatId', key);
-        const { username, email, password } = req.body;
-
         try {
+            const key = generateKey(50);
+            const { username, email, password } = req.body;
             await addSession(key, email);
             await addUser(username, email, password);
+            
+            res.cookie('pubChatId', key);
             res.status(200);
             res.redirect('/');
             //....

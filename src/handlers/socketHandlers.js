@@ -1,31 +1,58 @@
 const { findUser } = require('../libs/users');
 const { findSession } = require('../libs/sessions');
-const { addMessage, 
-		updateHistory,
-		getFullHistory,
-		getCutHistory,
+const {
+    addMessage,
+    updateHistory,
+    getFullHistory,
+    getCutHistory,
 } = require('../libs/histories');
+
+const users = new Set();
 
 async function connectIO(io) {
     io.sockets.on('connection', (socket) => {
-    	socket.on('loadInfo', async function(cookie) {
-    		let index = cookie.indexOf('pubChatId=');
-    		index += 10;
-    		let cookiePub = cookie.slice(index);
-    		
-    		const history = await loadHistory(cookiePub);
-    		io.emit('loadHistory', history);
-    		const name = await activeUser(cookiePub);
-    		if (name) {
-    			io.emit('activeUser', name);
-    		}
-    	});
-        socket.on('disconnect', () => {
+        socket.on('loadInfo', async function(cookie) {
+            let index = cookie.indexOf('pubChatId=');
+            index += 10;
+            let cookiePub = cookie.slice(index);
+
+            const history = await loadHistory(cookiePub);
+            io.emit('loadHistory', history);
+            const name = await activeUser(cookiePub);
+            if (name) {
+            	users.add(name);
+            	let names = [];
+            	for (let user of users) {
+            		names.push(user);
+            	}
+                io.emit('activeUser', names);
+            }
+        });
+        socket.on('disconnect', async function(cookie) {
+        	
+        	try {
+        		const currentSession = await findSession(cookie);
+        		if (!currentSession) return;
+        		const currentUser = await findUser(currentSession.email);
+        		
+        		users.delete(currentUser.username);
+
+            	let names = [];
+            	for (let user of users) {
+            		names.push(user);
+            	}
+
+            	console.log(currentUser.username);
+
+        		io.emit('activeUser', names);
+        	} catch(e) {
+        		console.log(e);
+        		return;
+        	}
 
         });
         socket.on('message', async function(event) {
             await responseMessage(event);
-            console.log(event);
             io.emit('addMessage', event);
         });
     });
@@ -49,13 +76,13 @@ async function responseMessage(event) {
             date,
             event.text
         );
-        
+
         await updateHistory();
 
         event.date = date;
         event.userName = currentUser.username;
 
-    	await currentUser.save();
+        await currentUser.save();
     } catch (e) {
         console.log(e);
         return;
@@ -63,34 +90,57 @@ async function responseMessage(event) {
 }
 
 async function loadHistory(cookie) {
- 	try {
+    try {
         const currentSession = await findSession(cookie);
         if (!currentSession) {
-        	const cutHistory = await getCutHistory(5);
-        	return cutHistory;
-        }
-        
+            const fullCutHistory = await getFullHistory();
+            const size = fullCutHistory / 4;
+            const cutHistory = await getCutHistory(size);
+			
+            if (fullCutHistory.length < 4) {
+	            let length = fullCutHistory.length
+
+	            for (let i = 0; i < length; i++) {
+	            	fullCutHistory.push(false);
+	            }
+
+	            return fullCutHistory;
+        	}
+        }	
+
         const fullHistory = await getFullHistory();
+        const currentUser = await findUser(currentSession.email);
+
+        let lengthFull = fullHistory.length;
+
+        for (let i = 0; i < lengthFull; i++) {
+        	if (fullHistory[i].userName == currentUser.username) {
+        		fullHistory.push(true);
+        	} else {
+        		fullHistory.push(false);
+        	}
+        }
+
         return fullHistory;
-    } catch(e) {
-    	console.log(e);
-    	return;
+    } catch (e) {
+        console.log(e);
+        return;
     }
 }
 
 async function activeUser(cookie) {
-	try {
-		const currentSession = await findSession(cookie);
-		if(currentSession) {
-			const currentUser = await findUser(currentSession.email);
-			return currentUser.username;
-		}
+    try {
+        const currentSession = await findSession(cookie);
+        if (currentSession) {
+            const currentUser = await findUser(currentSession.email);
+            return currentUser.username;
+        }
 
-		return '';
-	} catch(e) {
-		console.log(e);
-		return;
-	}
+        return '';
+    } catch (e) {
+        console.log(e);
+        return;
+    }
 }
 
 module.exports = connectIO;

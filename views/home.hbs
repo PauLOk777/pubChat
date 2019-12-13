@@ -19,18 +19,24 @@
 </div>
 <span style="display: none;" id="disable">{{check}}</span>
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/showHistory.js"></script>
 <script>
 	$(function() {
 		const socket = io.connect('http://localhost:3000');
 		socket.emit('loadInfo', document.cookie);
 
 		socket.on('loadHistory', messages => {
-			
+			showHistory(messages);
 		});
 
-		socket.on('activeUser', name => {
-			
+		socket.on('activeUser', names => {
+			$('#users').val('');
+			for (let name of names) {
+				$('#users').append("<h6>" + name + "</h6></br>");
+			}
 		});
+
+		socket.on('disconnect', () => socket.emit('disconnect', document.cookie));
 
 		$('form').submit(e => {
 			e.preventDefault();
@@ -40,8 +46,38 @@
 		});
 
 		socket.on('addMessage', event => {
-			$('#messages').append($('<div>').text(event.text));
-			alert(event.userName);
+			let newDate = new Date(event.date);
+			let date = newDate.getDate() +
+						'.' + newDate.getMonth() +
+						' ' + newDate.getHours() +
+						':' + newDate.getMinutes();
+			let nameText = '<b>' + event.userName + ':</b> ' +
+							event.text;
+
+			div = document.createElement('div');
+
+
+			if (event.cookie == document.cookie) {
+				div.className = 'myMessage';
+			} else {
+				div.className = 'otherMessage';
+			}
+			pDate = document.createElement('p');
+			pDate.textContent = date;
+
+			pText = document.createElement('p');
+			pText.innerHTML = nameText;
+
+			divInline = document.createElement('div');
+			divInline.append(pDate);
+			divInline.append(pText);
+
+			div.append(divInline);
+
+			let mainDiv = document.getElementById('messages');
+			mainDiv.append(div);
+			mainDiv.append(document.createElement('br'));
+			
 		});
 	});
 </script>
