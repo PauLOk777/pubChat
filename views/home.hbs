@@ -23,7 +23,7 @@
 <script src="/js/showHistory.js"></script>
 <script>
 	$(function() {
-		const socket = io.connect('http://localhost:3000');
+		const socket = io();
 		socket.emit('loadInfo', document.cookie);
 
 		socket.on('loadHistory', messages => {
