@@ -29,7 +29,7 @@ function showHistory(messages) {
 
         div = document.createElement('div');
 
-        if (messages[i + messages.length / 2]) {
+        if (messages[i + (messages.length - 1) / 2]) {
             div.className = 'myMessage';
         } else {
             div.className = 'otherMessage';
