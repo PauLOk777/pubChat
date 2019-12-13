@@ -69,8 +69,6 @@ html, body {
 }
 
 footer {
-	position: absolute;
-	bottom: 0;
 	color: white;
     background-color: #303030;
     padding-top: 15px;
