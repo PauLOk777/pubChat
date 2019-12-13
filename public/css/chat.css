@@ -90,9 +90,11 @@ footer {
 }
 
 .myMessage div {
+	text-align: left;
 	background-color: #0E5B9E;
 	display: inline-block;
-	margin-left: 10px;
+	margin-top: 5px;
+	margin-right: 10px;
 	padding: 10px 50px;
 	border-radius: 10px;
 }
@@ -105,6 +107,7 @@ footer {
 .otherMessage div {
 	background-color: #312A2A;
 	display: inline-block;
+	margin-top: 5px;
 	margin-left: 10px;
 	padding: 10px 50px;
 	border-radius: 10px;
