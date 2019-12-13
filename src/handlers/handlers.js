@@ -46,11 +46,12 @@ async function signInPage(req, res) {
     if (req.cookies.pubChatId) {
         try {
             const currentSession = await findSession(req.cookies.pubChatId);
-            if (currentSession.log) {
+            if (currentSession) {
+                if (currentSession.log)
                 res.redirect('/');
                 return;
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return;
         }
@@ -69,11 +70,12 @@ async function signUpPage(req, res) {
     if (req.cookies.pubChatId) {
         try {
             const currentSession = await findSession(req.cookies.pubChatId);
-            if (currentSession.log) {
+            if (currentSession) {
+                if (currentSession.log)
                 res.redirect('/');
                 return;
             }
-        } catch(e) {
+        } catch (e) {
             console.log(e);
             return;
         }
@@ -134,13 +136,11 @@ async function signIn(req, res) {
                 res.status(401);
                 res.end('Invalid sign up data!');
             }
-            
         } else {
             res.redirect('/');
             return;
         }
-
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         res.status(400);
         res.end('Error: wrong post data was sent!');
@@ -170,7 +170,6 @@ async function signUp(req, res) {
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
         if (!currentSession) {
-
             const key = generateKey(50);
             const { username, email, password } = req.body;
             await addSession(key, email);
@@ -179,13 +178,11 @@ async function signUp(req, res) {
             res.cookie('pubChatId', key);
             res.status(200);
             res.redirect('/');
-            
         } else {
             res.redirect('/');
             return;
         }
-
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         res.status(401);
         res.end('Error: wrong post data was sent!');

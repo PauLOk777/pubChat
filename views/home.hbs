@@ -36,7 +36,7 @@
 		socket.on('activeUser', names => {
 			$('#users').html('<div><h3>Active users:</h3></div>');
 			for (let name of names) {
-				$('#users').append('<p class="paragraph">' + name + "</p></br>");
+				$('#users').append('<p class="paragraph">' + name + "</p>");
 			}
 		});
 
