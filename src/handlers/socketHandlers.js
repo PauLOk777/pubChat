@@ -93,18 +93,21 @@ async function loadHistory(cookie) {
         const currentSession = await findSession(cookie);
         if (!currentSession) {
             const fullCutHistory = await getFullHistory();
-            const size = fullCutHistory / 4;
-            const cutHistory = await getCutHistory(size);
 
+            let length;
             if (fullCutHistory.length < 4) {
-                let length = fullCutHistory.length;
-
-                for (let i = 0; i < length; i++) {
-                    fullCutHistory.push(false);
-                }
-
-                return fullCutHistory;
+                length = Math.floor(fullCutHistory.length);
+            } else {
+            	length = Math.floor(fullCutHistory.length / 4);
             }
+            
+            const cutHistory = await getCutHistory(length);
+
+            for (let i = 0; i < length; i++) {
+            	cutHistory.push(false);
+            }
+
+            return cutHistory;
         }
 
         const fullHistory = await getFullHistory();
