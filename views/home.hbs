@@ -22,7 +22,7 @@
 <script src="/js/showHistory.js"></script>
 <script>
 	$(function() {
-		const socket = io.connect('http://pubchatpaul.herokuapp.com:8080');
+		const socket = io();
 		socket.emit('loadInfo', document.cookie);
 
 		socket.on('loadHistory', messages => {
