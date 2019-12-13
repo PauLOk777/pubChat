@@ -1,5 +1,16 @@
 language: node_js
 node_js:
- - node
+- node
 script:
- - npm test
+- npm test
+notifications:
+  email: false
+install:
+- npm install
+deploy:
+  provider: heroku
+  app: weblabnodetest
+  api_key:
+    secure: ddjKd2UbGNrpuDCAaFPW1VTTRWTvSuDoVG/JgEvoKYjz/AiWPAJZGd3EQ3pm7IpO67eW1VBmuXDaTuH+l0mobyyyvp2cS5bNeOKGM7Mh0bdGPEdrut535PkY4etp7TVhPoSimHVuQCoXsjUSeJe/1VSKIX2x4LNXSG6mubNgYh/zic+jjQ6XvEmRtXOxlzvRrC2oQUQkv75ANjiAxIQWZSf9oK7+a7R6r7kyg3hUY/cnQMzIOyuvYIisJNjtdVDKugRjxmcnfZNQBxqtbMupl7ohgcP/Ntt7WgNrM9DLnnaivwLTPFuHDCmONAAcY/MYJw5F0APqLVAGz1W0aOeaCA9rAgKBtKaEW2GTrFQ3TGcUUwNt4+6JYf3rkspkSuuQhkZZhalTj9p7YJSeXtqLF2A8ibTfJKkesv6rLyGdJpywsS8YXfleQynIvaGX2xP1egmzF6YFEHUad6k6+QlEuAdjH+J6bLFGyhqPoabYJ6icZW2uMZk82DFco4TBtvgn535ZnAT37znfmS9+Ff/myHsa88QqkargojhCIYOYqcjMDfifZ9qfF6ngaw+SC0PUGffIerTLMyDZhTYyVb1I3ZPoGeH1vUQFgStL4HwHymxbIYDsXbDd5ptjJ9OUJdwR3TVi65NKXgeQTWmtAUtd4JOpslkjIJg/k3xgAg+IKF8="
+  on: 
+    repo: PauLOk777/basic-REST-API

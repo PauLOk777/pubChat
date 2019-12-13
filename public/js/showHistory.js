@@ -1,11 +1,11 @@
 function showHistory(messages) {
-	let index = document.cookie.indexOf('pubChatId=');
+    let index = document.cookie.indexOf('pubChatId=');
     index += 10;
     let cookiePub = document.cookie.slice(index);
     if (messages[messages.length - 1] != cookiePub) return;
     let mainDiv = document.getElementById('messages');
     mainDiv.innerHTML = '';
-    for (let i = 0; i < Math.floor(messages.length / 2); i++) {
+    for (let i = 0; i < Math.floor((messages.length - 1) / 2); i++) {
         let newDate = new Date(messages[i].date);
         let test = '';
         let minutes = '';
