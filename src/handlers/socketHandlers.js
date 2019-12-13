@@ -21,31 +21,32 @@ async function connectIO(io) {
             history.push(cookiePub);
             io.emit('loadHistory', history);
             const name = await activeUser(cookiePub);
+            let names = [];
             if (name) {
                 users.add(name);
-                let names = [];
+           
                 for (let user of users) {
                     names.push(user);
                 }
-                io.emit('activeUser', names);
             }
+            io.emit('activeUser', names);
         });
 
         socket.on('disconnect', async function() {
             let cookiePub = socket.cookies;
             try {
                 const currentSession = await findSession(cookiePub);
-                if (!currentSession) return;
-                const currentUser = await findUser(currentSession.email);
+                if (currentSession) {
+	                const currentUser = await findUser(currentSession.email);
 
-                console.dir(users);
-                users.delete(currentUser.username);
+	                console.dir(users);
+	                users.delete(currentUser.username);
 
-                let names = [];
-                for (let user of users) {
-                    names.push(user);
+	                let names = [];
+	                for (let user of users) {
+	                    names.push(user);
+	                }
                 }
-
                 io.emit('activeUser', names);
             } catch (e) {
                 console.log(e);
