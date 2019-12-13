@@ -28,10 +28,7 @@ async function updateLog(pubChatId) {
 }
 
 async function updateSignIn(email, key) {
-    const info = await Session.updateOne(
-        { email },
-        { log: true }
-    );
+    const info = await Session.updateOne({ email }, { log: true });
     if (!info) throw new Error('Some error with sign in!');
     return info;
 }

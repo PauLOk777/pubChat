@@ -119,25 +119,21 @@ async function accountPage(req, res) {
 async function signIn(req, res) {
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
-        if (!req.cookies.pubChatId || !currentSession.log) {
-            res.cookie('pubChatId', currentSession.pubChatId);
-        }
 
-        if (!req.cookies.pubChatId || !currentSession.log) {
+        if (!currentSession.log) {
             const { email, password } = req.body;
 
-            
-                const info = await updateSignIn(email);
-                const match = await checkUser(email, password);
-                if (match) {
-                    const currentSession = await findSessionEmail(email);
-                    res.cookie('pubChatId', currentSession.pubChatId);
-                    res.status(200);
-                    res.redirect('/');
-                } else {
-                    res.status(401);
-                    res.end('Invalid sign up data!');
-                }
+            const info = await updateSignIn(email);
+            const match = await checkUser(email, password);
+            if (match) {
+                const currentSession = await findSessionEmail(email);
+                res.cookie('pubChatId', currentSession.pubChatId);
+                res.status(200);
+                res.redirect('/');
+            } else {
+                res.status(401);
+                res.end('Invalid sign up data!');
+            }
             
         } else {
             res.redirect('/');
@@ -173,7 +169,7 @@ async function signUp(req, res) {
     // }
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
-        if (!req.cookies.pubChatId || !currentSession.log) {
+        if (!currentSession.log) {
 
             const key = generateKey(50);
             const { username, email, password } = req.body;
