@@ -47,8 +47,7 @@ async function signInPage(req, res) {
         try {
             const currentSession = await findSession(req.cookies.pubChatId);
             if (currentSession) {
-                if (currentSession.log)
-                res.redirect('/');
+                if (currentSession.log) res.redirect('/');
                 return;
             }
         } catch (e) {
@@ -71,8 +70,7 @@ async function signUpPage(req, res) {
         try {
             const currentSession = await findSession(req.cookies.pubChatId);
             if (currentSession) {
-                if (currentSession.log)
-                res.redirect('/');
+                if (currentSession.log) res.redirect('/');
                 return;
             }
         } catch (e) {

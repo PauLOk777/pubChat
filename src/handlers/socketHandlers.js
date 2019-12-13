@@ -32,14 +32,14 @@ async function connectIO(io) {
         });
 
         socket.on('disconnect', async function() {
-            let cookiePub = socket.cookie;
+            let cookiePub = socket.cookies;
             try {
                 const currentSession = await findSession(cookiePub);
                 if (!currentSession) return;
                 const currentUser = await findUser(currentSession.email);
 
-                users.delete(currentUser.username);
                 console.dir(users);
+                users.delete(currentUser.username);
 
                 let names = [];
                 for (let user of users) {
