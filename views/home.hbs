@@ -17,6 +17,7 @@
 		</div>
 	</div>
 </div>
+<div style="min-height: 40px;"></div>
 <span style="display: none;" id="disable">{{check}}</span>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/showHistory.js"></script>
@@ -35,7 +36,7 @@
 		socket.on('activeUser', names => {
 			$('#users').html('<div><h3>Active users:</h3></div>');
 			for (let name of names) {
-				$('#users').append("<p>" + name + "</p></br>");
+				$('#users').append('<p class="paragraph">' + name + "</p></br>");
 			}
 		});
 

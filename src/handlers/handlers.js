@@ -3,6 +3,7 @@ const { addUser, checkUser, findUser } = require('../libs/users');
 const {
     addSession,
     findSession,
+    findSessionEmail,
     updateSignIn,
     updateLog,
 } = require('../libs/sessions');
@@ -12,7 +13,7 @@ async function chatPage(req, res) {
     let pointer = 'Not Empty';
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
-        if (!currentSession) {
+        if (!currentSession || !currentSession.log) {
             pointer = null;
         }
     } catch (e) {
@@ -41,10 +42,18 @@ async function chatPage(req, res) {
     }
 }
 
-function signInPage(req, res) {
+async function signInPage(req, res) {
     if (req.cookies.pubChatId) {
-        res.redirect('/');
-        return;
+        try {
+            const currentSession = await findSession(req.cookies.pubChatId);
+            if (currentSession.log) {
+                res.redirect('/');
+                return;
+            }
+        } catch(e) {
+            console.log(e);
+            return;
+        }
     }
 
     res.render('signIn.hbs', {
@@ -56,10 +65,18 @@ function signInPage(req, res) {
     });
 }
 
-function signUpPage(req, res) {
+async function signUpPage(req, res) {
     if (req.cookies.pubChatId) {
-        res.redirect('/');
-        return;
+        try {
+            const currentSession = await findSession(req.cookies.pubChatId);
+            if (currentSession.log) {
+                res.redirect('/');
+                return;
+            }
+        } catch(e) {
+            console.log(e);
+            return;
+        }
     }
 
     res.render('signUp.hbs', {
@@ -75,7 +92,7 @@ async function accountPage(req, res) {
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
 
-        if (!currentSession) {
+        if (!currentSession || !currentSession.log) {
             res.redirect('/');
             return;
         }
@@ -95,37 +112,69 @@ async function accountPage(req, res) {
     } catch (e) {
         console.log(e);
         res.redirect('/');
+        return;
     }
 }
 
 async function signIn(req, res) {
-    if (!req.cookies.pubChatId) {
-        const key = generateKey(50);
-        const { email, password } = req.body;
-        res.cookie('pubChatId', key);
-
-        try {
-            const info = await updateSignIn(email, key);
-            const match = await checkUser(email, password);
-            if (match) {
-                res.status(200);
-                res.redirect('/');
-                //....
-            } else {
-                res.status(401);
-                res.end('Invalid sign up data!');
-            }
-        } catch (err) {
-            console.error(err);
-            res.status(400);
-            res.end('Error: wrong post data was sent!');
+    try {
+        const currentSession = await findSession(req.cookies.pubChatId);
+        if (!req.cookies.pubChatId || !currentSession.log) {
+            res.cookie('pubChatId', currentSession.pubChatId);
         }
+
+        if (!req.cookies.pubChatId || !currentSession.log) {
+            const { email, password } = req.body;
+
+            
+                const info = await updateSignIn(email);
+                const match = await checkUser(email, password);
+                if (match) {
+                    const currentSession = await findSessionEmail(email);
+                    res.cookie('pubChatId', currentSession.pubChatId);
+                    res.status(200);
+                    res.redirect('/');
+                } else {
+                    res.status(401);
+                    res.end('Invalid sign up data!');
+                }
+            
+        } else {
+            res.redirect('/');
+            return;
+        }
+
+    } catch(e) {
+        console.error(e);
+        res.status(400);
+        res.end('Error: wrong post data was sent!');
     }
 }
 
 async function signUp(req, res) {
-    if (!req.cookies.pubChatId) {
-        try {
+    // if (!req.cookies.pubChatId) {
+    //     try {
+    //         const key = generateKey(50);
+    //         const { username, email, password } = req.body;
+    //         await addSession(key, email);
+    //         await addUser(username, email, password);
+
+    //         res.cookie('pubChatId', key);
+    //         res.status(200);
+    //         res.redirect('/');
+    //     } catch (err) {
+    //         console.error(err);
+    //         res.status(401);
+    //         res.end('Error: wrong post data was sent!');
+    //     }
+    // } else {
+    //     res.redirect('/');
+    //     return;
+    // }
+    try {
+        const currentSession = await findSession(req.cookies.pubChatId);
+        if (!req.cookies.pubChatId || !currentSession.log) {
+
             const key = generateKey(50);
             const { username, email, password } = req.body;
             await addSession(key, email);
@@ -134,15 +183,16 @@ async function signUp(req, res) {
             res.cookie('pubChatId', key);
             res.status(200);
             res.redirect('/');
-            //....
-        } catch (err) {
-            console.error(err);
-            res.status(401);
-            res.end('Error: wrong post data was sent!');
+            
+        } else {
+            res.redirect('/');
+            return;
         }
-    } else {
-        res.redirect('/');
-        return;
+
+    } catch(e) {
+        console.error(e);
+        res.status(401);
+        res.end('Error: wrong post data was sent!');
     }
 }
 

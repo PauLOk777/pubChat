@@ -15,6 +15,12 @@ async function findSession(pubChatId) {
     return session;
 }
 
+async function findSessionEmail(email) {
+    const session = await Session.findOne({ email });
+    if (!session) return null;
+    return session;
+}
+
 async function updateLog(pubChatId) {
     const info = await Session.updateOne({ pubChatId }, { log: false });
     if (!info) throw new Error('Some error with sign out!');
@@ -24,7 +30,7 @@ async function updateLog(pubChatId) {
 async function updateSignIn(email, key) {
     const info = await Session.updateOne(
         { email },
-        { pubChatId: key, log: true }
+        { log: true }
     );
     if (!info) throw new Error('Some error with sign in!');
     return info;
@@ -33,6 +39,7 @@ async function updateSignIn(email, key) {
 module.exports = {
     addSession,
     findSession,
+    findSessionEmail,
     updateSignIn,
     updateLog,
 };

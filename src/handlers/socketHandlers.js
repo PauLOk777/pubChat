@@ -11,6 +11,7 @@ const users = new Set();
 
 async function connectIO(io) {
     io.sockets.on('connection', async function(socket) {
+
         socket.on('loadInfo', async function(cookie) {
             let index = cookie.indexOf('pubChatId=');
             index += 10;
@@ -31,8 +32,6 @@ async function connectIO(io) {
             }
         });
 
-        socket.on('reconnect', () => console.log('Hello'));
-
         socket.on('disconnect', async function() {
             let cookiePub = socket.cookie;
             try {
@@ -41,6 +40,7 @@ async function connectIO(io) {
                 const currentUser = await findUser(currentSession.email);
 
                 users.delete(currentUser.username);
+                console.dir(users);
 
                 let names = [];
                 for (let user of users) {

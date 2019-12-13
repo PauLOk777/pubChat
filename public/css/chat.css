@@ -69,6 +69,8 @@ html, body {
 }
 
 footer {
+	position: fixed;
+	bottom: 0;
 	color: white;
     background-color: #303030;
     padding-top: 15px;
@@ -132,4 +134,8 @@ footer {
 .headerLi a:hover {
 	color: white;
 	text-decoration: none;
+}
+
+.paragraph {
+	margin: 0;
 }
