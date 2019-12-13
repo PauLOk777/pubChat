@@ -30,7 +30,7 @@
 		});
 
 		socket.on('activeUser', names => {
-			$('#users').val('');
+			$('#users').html('');
 			for (let name of names) {
 				$('#users').append("<h6>" + name + "</h6></br>");
 			}

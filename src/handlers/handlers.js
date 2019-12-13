@@ -12,11 +12,10 @@ async function chatPage(req, res) {
     let pointer = 'Not Empty';
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
-        if(!currentSession) {
+        if (!currentSession) {
             pointer = null;
         }
-
-    } catch(e) {
+    } catch (e) {
         console.log(e);
         res.status(404);
         return;
@@ -73,10 +72,9 @@ function signUpPage(req, res) {
 }
 
 async function accountPage(req, res) {
-
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
-        
+
         if (!currentSession) {
             res.redirect('/');
             return;

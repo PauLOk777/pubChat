@@ -11,7 +11,6 @@ const users = new Set();
 
 async function connectIO(io) {
     io.sockets.on('connection', async function(socket) {
-
         socket.on('loadInfo', async function(cookie) {
             let index = cookie.indexOf('pubChatId=');
             index += 10;
