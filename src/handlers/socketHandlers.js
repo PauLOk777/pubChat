@@ -30,6 +30,27 @@ async function connectIO(io) {
             }
         });
 
+        socket.on('reconnect_attempt', async function() {
+        	let cookiePub = socket.cookie;
+            try {
+                const currentSession = await findSession(cookiePub);
+                if (!currentSession) return;
+                const currentUser = await findUser(currentSession.email);
+
+                users.delete(currentUser.username);
+
+                let names = [];
+                for (let user of users) {
+                    names.push(user);
+                }
+
+                io.emit('activeUser', names);
+            } catch (e) {
+                console.log(e);
+                return;
+            }
+        });
+
         socket.on('disconnect', async function() {
             let cookiePub = socket.cookie;
             try {
