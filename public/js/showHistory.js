@@ -7,18 +7,19 @@ function showHistory(messages) {
         let minutes = '';
         test += newDate.getMinutes();
         if (test.length == 1) {
-        	minutes += '0' + test;
+            minutes += '0' + test;
         } else {
-        	minutes += test;
+            minutes += test;
         }
-        
+
         let date =
             newDate.getDate() +
             '.' +
             newDate.getMonth() +
             ' ' +
             newDate.getHours() +
-            ':' + minutes;
+            ':' +
+            minutes;
         let nameText =
             '<b>' + messages[i].userName + ':</b> ' + messages[i].text;
 
