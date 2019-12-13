@@ -55,7 +55,7 @@ html, body {
 	text-align: left;
 }
 
-#typeMsg textarea {
+#typeMsg input {
 	min-height: 30px;
 	height: 30px;
 	width: 90%;
