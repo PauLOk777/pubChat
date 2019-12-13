@@ -98,13 +98,13 @@ async function loadHistory(cookie) {
             if (fullCutHistory.length < 4) {
                 length = Math.floor(fullCutHistory.length);
             } else {
-            	length = Math.floor(fullCutHistory.length / 4);
+                length = Math.floor(fullCutHistory.length / 4);
             }
-            
+
             const cutHistory = await getCutHistory(length);
 
             for (let i = 0; i < length; i++) {
-            	cutHistory.push(false);
+                cutHistory.push(false);
             }
 
             return cutHistory;

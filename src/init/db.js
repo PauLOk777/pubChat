@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { promisify } = require('util');
 
-const URL = 'mongodb://localhost:27017/pubchat';
+const URL = process.env.MONGODB_URI || 'mongodb://localhost:27017/pubchat';
 
 async function init() {
     mongoose.set('useNewUrlParser', true);

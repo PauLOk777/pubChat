@@ -3,14 +3,22 @@ function showHistory(messages) {
     mainDiv.innerHTML = '';
     for (let i = 0; i < Math.floor(messages.length / 2); i++) {
         let newDate = new Date(messages[i].date);
+        let test = '';
+        let minutes = '';
+        test += newDate.getMinutes();
+        if (test.length == 1) {
+        	minutes += '0' + test;
+        } else {
+        	minutes += test;
+        }
+        
         let date =
             newDate.getDate() +
             '.' +
             newDate.getMonth() +
             ' ' +
             newDate.getHours() +
-            ':' +
-            newDate.getMinutes();
+            ':' + minutes;
         let nameText =
             '<b>' + messages[i].userName + ':</b> ' + messages[i].text;
 
