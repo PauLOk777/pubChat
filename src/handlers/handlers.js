@@ -118,7 +118,7 @@ async function signUp(req, res) {
             const { username, email, password } = req.body;
             await addSession(key, email);
             await addUser(username, email, password);
-            
+
             res.cookie('pubChatId', key);
             res.status(200);
             res.redirect('/');

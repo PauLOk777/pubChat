@@ -15,41 +15,40 @@ async function connectIO(io) {
             let index = cookie.indexOf('pubChatId=');
             index += 10;
             let cookiePub = cookie.slice(index);
+            socket.cookie = cookiePub;
 
             const history = await loadHistory(cookiePub);
             io.emit('loadHistory', history);
             const name = await activeUser(cookiePub);
             if (name) {
-            	users.add(name);
-            	let names = [];
-            	for (let user of users) {
-            		names.push(user);
-            	}
+                users.add(name);
+                let names = [];
+                for (let user of users) {
+                    names.push(user);
+                }
                 io.emit('activeUser', names);
             }
         });
-        socket.on('disconnect', async function(cookie) {
-        	
-        	try {
-        		const currentSession = await findSession(cookie);
-        		if (!currentSession) return;
-        		const currentUser = await findUser(currentSession.email);
-        		
-        		users.delete(currentUser.username);
 
-            	let names = [];
-            	for (let user of users) {
-            		names.push(user);
-            	}
+        socket.on('disconnect', async function() {
+            let cookiePub = socket.cookie;
+            try {
+                const currentSession = await findSession(cookiePub);
+                if (!currentSession) return;
+                const currentUser = await findUser(currentSession.email);
 
-            	console.log(currentUser.username);
+                users.delete(currentUser.username);
 
-        		io.emit('activeUser', names);
-        	} catch(e) {
-        		console.log(e);
-        		return;
-        	}
+                let names = [];
+                for (let user of users) {
+                    names.push(user);
+                }
 
+                io.emit('activeUser', names);
+            } catch (e) {
+                console.log(e);
+                return;
+            }
         });
         socket.on('message', async function(event) {
             await responseMessage(event);
@@ -96,17 +95,17 @@ async function loadHistory(cookie) {
             const fullCutHistory = await getFullHistory();
             const size = fullCutHistory / 4;
             const cutHistory = await getCutHistory(size);
-			
+
             if (fullCutHistory.length < 4) {
-	            let length = fullCutHistory.length
+                let length = fullCutHistory.length;
 
-	            for (let i = 0; i < length; i++) {
-	            	fullCutHistory.push(false);
-	            }
+                for (let i = 0; i < length; i++) {
+                    fullCutHistory.push(false);
+                }
 
-	            return fullCutHistory;
-        	}
-        }	
+                return fullCutHistory;
+            }
+        }
 
         const fullHistory = await getFullHistory();
         const currentUser = await findUser(currentSession.email);
@@ -114,11 +113,11 @@ async function loadHistory(cookie) {
         let lengthFull = fullHistory.length;
 
         for (let i = 0; i < lengthFull; i++) {
-        	if (fullHistory[i].userName == currentUser.username) {
-        		fullHistory.push(true);
-        	} else {
-        		fullHistory.push(false);
-        	}
+            if (fullHistory[i].userName == currentUser.username) {
+                fullHistory.push(true);
+            } else {
+                fullHistory.push(false);
+            }
         }
 
         return fullHistory;
