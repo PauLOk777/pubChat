@@ -120,7 +120,7 @@ async function signIn(req, res) {
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
 
-        if (!currentSession.log) {
+        if (!currentSession) {
             const { email, password } = req.body;
 
             const info = await updateSignIn(email);
@@ -169,7 +169,7 @@ async function signUp(req, res) {
     // }
     try {
         const currentSession = await findSession(req.cookies.pubChatId);
-        if (!currentSession.log) {
+        if (!currentSession) {
 
             const key = generateKey(50);
             const { username, email, password } = req.body;
