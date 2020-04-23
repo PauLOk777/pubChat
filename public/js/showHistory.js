@@ -20,7 +20,7 @@ function showHistory(messages) {
         let month = '';
         tempValue += newDate.getMonth() + 1;
         if (tempValue.length == 1) {
-            month += '0' + tempValue
+            month += '0' + tempValue;
         } else {
             month += tempValue;
         }
@@ -33,7 +33,7 @@ function showHistory(messages) {
             newDate.getHours() +
             ':' +
             minutes;
-        
+
         let nameText =
             '<b>' + messages[i].userName + ':</b> ' + messages[i].text;
 
