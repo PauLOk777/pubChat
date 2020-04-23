@@ -7,23 +7,33 @@ function showHistory(messages) {
     mainDiv.innerHTML = '';
     for (let i = 0; i < Math.floor((messages.length - 1) / 2); i++) {
         let newDate = new Date(messages[i].date);
-        let test = '';
+        let tempValue = '';
         let minutes = '';
-        test += newDate.getMinutes();
-        if (test.length == 1) {
-            minutes += '0' + test;
+        tempValue += newDate.getMinutes();
+        if (tempValue.length == 1) {
+            minutes += '0' + tempValue;
         } else {
-            minutes += test;
+            minutes += tempValue;
+        }
+
+        tempValue = '';
+        let month = '';
+        tempValue += newDate.getMonth() + 1;
+        if (tempValue.length == 1) {
+            month += '0' + tempValue
+        } else {
+            month += tempValue;
         }
 
         let date =
             newDate.getDate() +
             '.' +
-            newDate.getMonth() +
+            month +
             ' ' +
             newDate.getHours() +
             ':' +
             minutes;
+        
         let nameText =
             '<b>' + messages[i].userName + ':</b> ' + messages[i].text;
 
